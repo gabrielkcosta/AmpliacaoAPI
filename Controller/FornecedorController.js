@@ -5,7 +5,7 @@ import {
   buscarPorIndice,
   atualizar,
   deletar
-} from "../repository/FornecedorRepository.js";
+} from "../Repository/FornecedorRepostory.js";
 
 export function cadastrarFornecedor(req, res) {
   const { nome, cnpj, telefone } = req.body;

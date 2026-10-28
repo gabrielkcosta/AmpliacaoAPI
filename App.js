@@ -11,7 +11,7 @@ produtoRoutes(app);
 categoriaRoutes(app);
 fornecedorRoutes(app);
 
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Servidor Rodando em http://localhost:3000`);
+  console.log(`Servidor Rodando em http://localhost:3001`);
 });
