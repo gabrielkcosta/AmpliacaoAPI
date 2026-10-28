@@ -4,7 +4,7 @@ import {
   buscarFornecedorPorIndice,
   atualizarFornecedor,
   deletarFornecedor
-} from "../controller/fornecedorController.js";
+} from "../controller/FornecedorController.js";
 
 export function fornecedorRoutes(app) {
   app.post("/fornecedor", cadastrarFornecedor);

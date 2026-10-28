@@ -4,7 +4,7 @@ import {
   buscarProdutoPorIndice,
   atualizarProduto,
   deletarProduto
-} from "../controller/produtoController.js";
+} from "../controller/ProdutoController.js";
 
 export function produtoRoutes(app) {
   app.post("/produto", cadastrarProduto);

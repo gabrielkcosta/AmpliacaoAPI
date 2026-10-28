@@ -1,7 +1,7 @@
 import express from "express";
-import { produtoRoutes } from "./routes/produtoRoutes.js";
-import { categoriaRoutes } from "./routes/categoriaRoutes.js";
-import { fornecedorRoutes } from "./routes/fornecedorRoutes.js";
+import { produtoRoutes } from "./routes/ProdutoRoutes.js";
+import { categoriaRoutes } from "./routes/CategoriaRoutes.js";
+import { fornecedorRoutes } from "./routes/FornecedorRoutes.js";
 
 const app = express();
 
@@ -13,5 +13,5 @@ fornecedorRoutes(app);
 
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor Rodando em http://localhost:3001`);
+  console.log(`Servidor Rodando em http://localhost:3000`);
 });

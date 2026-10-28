@@ -4,7 +4,7 @@ import {
   buscarCategoriaPorIndice,
   atualizarCategoria,
   deletarCategoria
-} from "../controller/categoriaController.js";
+} from "../controller/CategoriaController.js";
 
 export function categoriaRoutes(app) {
   app.post("/categoria", cadastrarCategoria);
