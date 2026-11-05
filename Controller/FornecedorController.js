@@ -1,63 +1,120 @@
 import { Fornecedor } from "../model/Fornecedor.js";
 import {
-  cadastrar,
-  listar,
-  buscarPorIndice,
-  atualizar,
-  deletar
+    cadastrar,
+    listar,
+    buscarPorId,
+    atualizar,
+    deletar
 } from "../Repository/FornecedorRepostory.js";
 
-export function cadastrarFornecedor(req, res) {
-  const { nome, cnpj, telefone } = req.body;
-  const novoFornecedor = new Fornecedor(nome, cnpj, telefone);
-  cadastrar(novoFornecedor);
-  return res.status(201).json(novoFornecedor);
+export async function cadastrarFornecedor(req, res) {
+    try {
+        const { nome, cnpj, telefone } = req.body;
+
+        if (!nome || !cnpj || !telefone) {
+            return res.status(400).json({
+                mensagem: "Nome, CNPJ e telefone são obrigatórios"
+            });
+        }
+
+        const novoFornecedor = new Fornecedor(nome, cnpj, telefone);
+        const id = await cadastrar(novoFornecedor);
+
+        return res.status(201).json({
+            mensagem: "Fornecedor cadastrado com sucesso",
+            id_fornecedor: id
+        });
+    } catch (erro) {
+        return res.status(500).json({
+            mensagem: "Erro ao cadastrar fornecedor: " + erro
+        });
+    }
 }
 
-export function listarFornecedores(req, res) {
-  const lista = listar();
-  return res.status(200).json(lista);
+export async function listarFornecedores(req, res) {
+    try {
+        const lista = await listar();
+        return res.status(200).json(lista);
+    } catch (erro) {
+        return res.status(500).json({
+            mensagem: "Erro ao listar fornecedores: " + erro
+        });
+    }
 }
 
-export function buscarFornecedorPorIndice(req, res) {
-  const { indice } = req.params;
-  const fornecedor = buscarPorIndice(indice);
+export async function buscarFornecedorPorId(req, res) {
+    try {
+        const id = Number(req.params.id);
+        const fornecedor = await buscarPorId(id);
 
-  if (!fornecedor) {
-    return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
-  }
+        if (!fornecedor) {
+            return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
+        }
 
-  return res.status(200).json(fornecedor);
+        return res.status(200).json(fornecedor);
+    } catch (erro) {
+        return res.status(500).json({
+            mensagem: "Erro ao listar fornecedor por ID: " + erro
+        });
+    }
 }
 
-export function atualizarFornecedor(req, res) {
-  const { indice } = req.params;
-  const fornecedorExistente = buscarPorIndice(indice);
+export async function atualizarFornecedor(req, res) {
+    try {
+        const id = Number(req.params.id);
+        const fornecedorExistente = await buscarPorId(id);
 
-  if (!fornecedorExistente) {
-    return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
-  }
+        if (!fornecedorExistente) {
+            return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
+        }
 
-  const { nome, cnpj, telefone } = req.body;
+        const { nome, cnpj, telefone } = req.body;
 
-  const nomeAtualizado = nome !== undefined ? nome : fornecedorExistente.nome;
-  const cnpjAtualizado = cnpj !== undefined ? cnpj : fornecedorExistente.cnpj;
-  const telefoneAtualizado = telefone !== undefined ? telefone : fornecedorExistente.telefone;
+        if (nome !== undefined) {
+            fornecedorExistente.nome = nome;
+        }
+        if (cnpj !== undefined) {
+            fornecedorExistente.cnpj = cnpj;
+        }
+        if (telefone !== undefined) {
+            fornecedorExistente.telefone = telefone;
+        }
 
-  const fornecedorAtualizado = new Fornecedor(nomeAtualizado, cnpjAtualizado, telefoneAtualizado);
-  atualizar(indice, fornecedorAtualizado);
+        const resultado = await atualizar(id, fornecedorExistente);
 
-  return res.status(200).json(fornecedorAtualizado);
+        if (resultado === 0) {
+            return res.status(404).json({
+                mensagem: "Erro ao atualizar fornecedor, nenhum registro atualizado"
+            });
+        }
+
+        return res.status(200).json({ mensagem: "Fornecedor atualizado com sucesso" });
+    } catch (erro) {
+        return res.status(500).json({
+            mensagem: "Erro ao atualizar fornecedor: " + erro
+        });
+    }
 }
 
-export function deletarFornecedor(req, res) {
-  const { indice } = req.params;
-  const fornecedorExistente = buscarPorIndice(indice);
+export async function deletarFornecedor(req, res) {
+    try {
+        const id = Number(req.params.id);
+        const fornecedorExistente = await buscarPorId(id);
 
-  if (!fornecedorExistente) {
-    return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
-  }
+        if (!fornecedorExistente) {
+            return res.status(404).json({ mensagem: "Fornecedor não encontrado!" });
+        }
 
-  deletar(indice);
-  return res.status(204).send();
+        const resultado = await deletar(id);
+
+        if (resultado === 0) {
+            return res.status(404).json({ mensagem: "Nenhum fornecedor deletado" });
+        }
+
+        return res.status(204).send();
+    } catch (erro) {
+        return res.status(500).json({
+            mensagem: "Erro ao deletar fornecedor: " + erro
+        });
+    }
 }

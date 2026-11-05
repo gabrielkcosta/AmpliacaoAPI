@@ -1,6 +1,27 @@
 {
-    "type": "module",
-    "dependencies": {
-        "express": "^5.3.0"
-    }
+  "type": "module",
+  "dependencies": {
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6"
+  },
+  "name": "7---exemplorota",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch --env-file=.env app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Petrosski/7---ExemploRota.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Petrosski/7---ExemploRota/issues"
+  },
+  "homepage": "https://github.com/Petrosski/7---ExemploRota#readme"
 }
+

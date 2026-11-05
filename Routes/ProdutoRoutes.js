@@ -1,15 +1,17 @@
-import {
-  cadastrarProduto,
-  listarProdutos,
-  buscarProdutoPorIndice,
-  atualizarProduto,
-  deletarProduto
-} from "../controller/ProdutoController.js";
+import express from "express";
+import { cadastrarProduto, 
+    listarProdutos,
+    BuscarProdutoPorId,
+    atualizarProduto,
+    deletarProduto 
+} from "../Controller/ProdutoController.js"; 
 
-export function produtoRoutes(app) {
-  app.post("/produto", cadastrarProduto);
-  app.get("/produto", listarProdutos);
-  app.get("/produto/:indice", buscarProdutoPorIndice);
-  app.patch("/produto/:indice", atualizarProduto);
-  app.delete("/produto/:indice", deletarProduto);
-}
+const router = express.Router();
+
+router.post("/", cadastrarProduto);
+router.get("/", listarProdutos);
+router.get("/:id", BuscarProdutoPorId);
+router.patch("/:id", atualizarProduto);
+router.delete("/:id", deletarProduto);
+
+export default router;

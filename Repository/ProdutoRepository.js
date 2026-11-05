@@ -1,23 +1,45 @@
-const produtos = [];
+import conexao from "../config/conexao.js"
 
-export function cadastrar(produto) {
-  produtos.push(produto);
-  return produto;
+export async function cadastrar(produto) {
+    const sql = "INSERT INTO produto (descricao, preco, peso) VALUES (?,?,?)";
+    const [resultado] = await conexao.execute(sql,[
+        produto.descricao,
+        produto.preco,
+        produto.peso
+    ]);
+    
+    return resultado.insertId;
 }
 
-export function listar() {
-  return produtos;
+export async function listar() {
+    const sql = "SELECT * FROM produto";
+    const [resultado] = await conexao.execute(sql);
+    
+    return resultado;
 }
 
-export function buscarPorIndice(indice) {
-  return produtos[indice];
+export async function buscarPorId(id) {
+    const sql = "SELECT * FROM produto WHERE id_produto = ?";
+    const [resultado] = await conexao.execute(sql,[id]);
+    
+    return resultado[0];
 }
 
-export function atualizar(indice, produto) {
-  produtos[indice] = produto;
-  return produtos[indice];
+export async function atualizar(id, produto) {
+    const sql = "UPDATE produto SET descricao = ?, preco = ?, peso = ? WHERE id_produto = ?";
+    const [resultado] = await conexao.execute(sql,[
+        produto.descricao,
+        produto.preco,
+        produto.peso,
+        id
+    ])
+    
+    return resultado.affectedRows;
 }
 
-export function deletar(indice) {
-  return produtos.splice(indice, 1);
+export async function deletar(id) {
+    const sql = "DELETE FROM produto WHERE id_produto = ?";
+    const [resultado] = await conexao.execute(sql, [id]);
+    
+    return resultado.affectedRows;
 }

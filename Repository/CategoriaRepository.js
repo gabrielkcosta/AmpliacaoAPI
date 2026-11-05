@@ -1,23 +1,43 @@
-const categorias = [];
+import conexao from "../config/conexao.js";
 
-export function cadastrar(categoria) {
-  categorias.push(categoria);
-  return categoria;
+export async function cadastrar(categoria) {
+    const sql = "INSERT INTO categoria (nome, descricao) VALUES (?, ?)";
+    const [resultado] = await conexao.execute(sql, [
+        categoria.nome,
+        categoria.descricao
+    ]);
+    
+    return resultado.insertId;
 }
 
-export function listar() {
-  return categorias;
+export async function listar() {
+    const sql = "SELECT * FROM categoria";
+    const [resultado] = await conexao.execute(sql);
+    
+    return resultado;
 }
 
-export function buscarPorIndice(indice) {
-  return categorias[indice];
+export async function buscarPorId(id) {
+    const sql = "SELECT * FROM categoria WHERE id_categoria = ?";
+    const [resultado] = await conexao.execute(sql, [id]);
+    
+    return resultado[0];
 }
 
-export function atualizar(indice, categoria) {
-  categorias[indice] = categoria;
-  return categorias[indice];
+export async function atualizar(id, categoria) {
+    const sql = "UPDATE categoria SET nome = ?, descricao = ? WHERE id_categoria = ?";
+    const [resultado] = await conexao.execute(sql, [
+        categoria.nome,
+        categoria.descricao,
+        id
+    ]);
+    
+    return resultado.affectedRows;
 }
 
-export function deletar(indice) {
-  return categorias.splice(indice, 1);
+export async function deletar(id) {
+    const sql = "DELETE FROM categoria WHERE id_categoria = ?";
+    const [resultado] = await conexao.execute(sql, [id]);
+    
+    return resultado.affectedRows;
 }

@@ -1,15 +1,18 @@
+import express from "express";
 import {
-  cadastrarFornecedor,
-  listarFornecedores,
-  buscarFornecedorPorIndice,
-  atualizarFornecedor,
-  deletarFornecedor
-} from "../controller/FornecedorController.js";
+    cadastrarCategoria,
+    listarCategorias,
+    buscarCategoriaPorId,
+    atualizarCategoria,
+    deletarCategoria
+} from "../Controller/CategoriaController.js";
 
-export function fornecedorRoutes(app) {
-  app.post("/fornecedor", cadastrarFornecedor);
-  app.get("/fornecedor", listarFornecedores);
-  app.get("/fornecedor/:indice", buscarFornecedorPorIndice);
-  app.patch("/fornecedor/:indice", atualizarFornecedor);
-  app.delete("/fornecedor/:indice", deletarFornecedor);
-}
+const router = express.Router();
+
+router.post("/", cadastrarCategoria);
+router.get("/", listarCategorias);
+router.get("/:id", buscarCategoriaPorId);
+router.patch("/:id", atualizarCategoria);
+router.delete("/:id", deletarCategoria);
+
+export default router;

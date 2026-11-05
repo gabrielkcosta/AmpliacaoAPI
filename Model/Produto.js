@@ -1,7 +1,7 @@
-export class Produto {
-  constructor(nome, preco, quantidade) {
-    this.nome = nome;
-    this.preco = preco;
-    this.quantidade = quantidade;
-  }
+export class Produto{
+    constructor(descricao, preco, peso){
+        this.descricao = descricao,
+        this.preco = preco,
+        this.peso = peso
+    }
 }
